@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Fire Tournament</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Russo+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Global Styles & Variables */
+        :root {
+            /* --- DARK THEME (DEFAULT) --- */
+            --bg-main: #0e141c;
+            --bg-card: #1a222c;
+            --text-primary: #eaeaea;
+            --text-secondary: #c0c0c0;
+            --accent-fire: #fba61b;
+            --accent-danger: #d72638;
+            --accent-blue: #00b3ff;
+            --accent-gold: #ffc107;
+            --border-color: #3a444c;
+            --shadow-color: rgba(0, 0, 0, 0.35);
+            --glow-color: rgba(251, 166, 27, 0.4);
+            --logo-circle-bg: linear-gradient(135deg, var(--accent-fire), var(--accent-gold));
+            --logo-circle-text: var(--bg-main);
+            --input-bg: var(--bg-main);
+            --input-text: var(--text-primary);
+            --input-border: var(--border-color);
+            --button-cta-bg: var(--accent-fire);
+            --button-cta-text: var(--bg-main);
+            --button-cta-border: var(--accent-gold);
+            --button-cta-hover-bg: var(--accent-gold);
+            --button-cta-hover-text: var(--bg-main);
+            --button-danger-bg: var(--accent-danger);
+            --button-danger-text: var(--text-primary);
+            --button-danger-border: #a31c2a;
+            --button-danger-hover-bg: #a31c2a;
+            --header-bg: var(--bg-card);
+            /* Footer Specific Dark Theme */
+            --footer-bg-dark: #1a222c; /* Explicitly dark for footer */
+            --footer-text-dark: var(--text-primary);
+            --footer-link-dark: var(--text-primary);
+            --footer-link-hover-dark: var(--accent-fire);
+            --footer-social-dark: var(--text-primary);
+            --footer-social-hover-dark: var(--accent-blue);
+
+
+            /* Font Variables (Consistent) */
+            --font-primary: 'Russo One', sans-serif;
+            --font-secondary: 'Inter', sans-serif;
+
+            /* Shadow Variables (Base for Dark) */
+            --shadow-sm: 0 1px 2px 0 var(--shadow-color);
+            --shadow-md: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px rgba(0,0,0,0.25);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.4), 0 4px 6px -2px rgba(0,0,0,0.3);
+        }
+
+        body.light-theme {
+            /* --- LIGHT THEME --- */
+            --bg-main: #f4f7f9;
+            --bg-card: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #555f6d;
+            --accent-fire: #e88f05;
+            --accent-danger: #c0392b;
+            --accent-blue: #2980b9;
+            --accent-gold: #dba100;
+            --border-color: #d1d8de;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --glow-color: rgba(232, 143, 5, 0.3);
+            --logo-circle-bg: linear-gradient(135deg, var(--accent-fire), var(--accent-gold));
+            --logo-circle-text: var(--bg-card); /* White text on orange for light mode too */
+            --input-bg: #ffffff;
+            --input-text: var(--text-primary);
+            --input-border: #ced4da;
+            --button-cta-bg: var(--accent-fire);
+            --button-cta-text: #ffffff;
+            --button-cta-border: var(--accent-gold);
+            --button-cta-hover-bg: var(--accent-gold);
+            --button-cta-hover-text: #ffffff;
+            --button-danger-bg: var(--accent-danger);
+            --button-danger-text: #ffffff;
+            --button-danger-border: #962d22;
+            --button-danger-hover-bg: #962d22;
+            --header-bg: var(--bg-card);
+             /* Footer Specific Light Theme - still uses dark bg for contrast */
+            --footer-bg-dark: #1a222c;
+            --footer-text-dark: #b0bec5; /* Lighter grey text on dark footer for light theme */
+            --footer-link-dark: #d1d8de; /* Lighter link color */
+            --footer-link-hover-dark: var(--accent-fire); /* Keep fire hover */
+            --footer-social-dark: #d1d8de;
+            --footer-social-hover-dark: var(--accent-blue);
+
+            --shadow-sm: 0 1px 3px 0 var(--shadow-color);
+            --shadow-md: 0 4px 8px -1px var(--shadow-color), 0 2px 5px -1px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 20px -3px rgba(0,0,0,0.12), 0 4px 8px -2px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+            flex-grow: 1; 
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-primary);
+            color: var(--accent-fire);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        body.light-theme h1,
+        body.light-theme h2,
+        body.light-theme h3 {
+             text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .header {
+            background: var(--header-bg);
+            padding: 1rem 0; 
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--accent-fire);
+        }
+
+        .header .container { 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%; 
+            width: 100%; 
+            max-width: none; 
+        }
+        .header-right-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container { 
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: transform 0.15s ease-out;
+        }
+        .logo-container:active {
+            transform: scale(0.97) translateY(1px);
+        }
+
+        .logo-circle {
+            width: 45px; 
+            height: 45px;
+            background: var(--logo-circle-bg);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 0.8rem;
+            box-shadow: 0 4px 15px var(--glow-color);
+        }
+
+        .logo-circle span {
+            font-family: var(--font-primary);
+            font-size: 1.4rem; 
+            font-weight: bold;
+            color: var(--logo-circle-text); 
+        }
+
+        .logo-container .site-title { 
+            font-family: var(--font-primary);
+            font-size: 1.8em;
+            color: var(--accent-fire);
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+         body.light-theme .logo-container .site-title {
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .nav-menu { 
+            display: flex;
+            gap: 5px; 
+            list-style: none;
+            align-items: center; 
+        }
+
+        .nav-menu li a.nav-link { 
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.2s ease-out;
+            font-weight: bold;
+            border: 1px solid transparent;
+            display: inline-flex; /* Changed to inline-flex for icon alignment */
+            align-items: center; /* Vertically align icon and text */
+        }
+        .nav-menu li a.nav-link i {
+            margin-right: 8px; /* Space between icon and text */
+        }
+
+
+        .nav-menu li a.nav-link:hover,
+        .nav-menu li a.nav-link.active {
+            background: var(--accent-fire);
+            color: var(--button-cta-text);
+            transform: translateY(-2px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 4px 10px var(--glow-color);
+        }
+        .nav-menu li a.nav-link:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 2px 5px var(--glow-color), inset 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .mobile-nav-toggle {
+            display: none;
+            font-size: 1.8em; 
+            background: none;
+            border: none;
+            color: var(--accent-fire);
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 0;
+            transition: transform 0.1s ease-out;
+        }
+        .mobile-nav-toggle:active {
+            transform: scale(0.92) translateY(1px);
+        }
+
+        .page {
+            display: none;
+            padding: 20px 5%; 
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .page.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Homepage Styles */
+        #home-page .banner {
+            background-color: var(--bg-main);
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-primary); 
+            padding: 20px;
+            border-radius: 15px; 
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--border-color);
+            background-image: linear-gradient(145deg, var(--bg-main) 0%, color-mix(in srgb, var(--bg-main) 80%, var(--accent-fire) 20%) 60%, var(--accent-fire) 150%);
+        }
+        body.light-theme #home-page .banner {
+             background-image: linear-gradient(145deg, var(--bg-main) 0%, color-mix(in srgb, var(--bg-main) 90%, var(--accent-fire) 10%) 70%, color-mix(in srgb, var(--accent-fire) 70%, var(--bg-main) 30%) 150%);
+        }
+        #home-page .banner-content { 
+            position: relative;
+            background-color: color-mix(in srgb, var(--bg-main) 30%, transparent 70%);
+            padding: 25px;
+            border-radius: 10px;
+        }
+        body.light-theme #home-page .banner-content {
+            background-color: color-mix(in srgb, var(--bg-card) 30%, transparent 70%);
+        }
+
+        #countdown-timer {
+            font-size: 2em;
+            font-family: var(--font-primary);
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: color-mix(in srgb, var(--bg-card) 85%, transparent 15%);
+            border-radius: 8px;
+            color: var(--accent-fire);
+            border: 1px solid var(--accent-gold);
+        }
+        .cta-button { 
+            background-color: var(--button-cta-bg);
+            color: var(--button-cta-text);
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 1.1em; 
+            font-family: var(--font-primary);
+            border-radius: 25px; 
+            border: 2px solid var(--button-cta-border);
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            box-shadow: 0 4px 15px var(--glow-color);
+            display: inline-block; 
+        }
+        .cta-button:hover {
+            background-color: var(--button-cta-hover-bg);
+            color: var(--button-cta-hover-text);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px var(--glow-color);
+        }
+        .cta-button:active {
+            transform: translateY(1px) scale(1.02);
+            box-shadow: 0 3px 10px color-mix(in srgb, var(--glow-color) 70%, transparent 30%), inset 0 2px 3px rgba(0,0,0,0.15);
+        }
+
+        /* Danger Button (for delete actions) */
+        .danger-button {
+            background-color: var(--button-danger-bg);
+            color: var(--button-danger-text);
+            padding: 10px 20px; /* Slightly smaller than CTA */
+            text-decoration: none;
+            font-size: 1em;
+            font-family: var(--font-primary);
+            border-radius: 25px;
+            border: 2px solid var(--button-danger-border);
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            box-shadow: 0 4px 10px rgba(215, 38, 56, 0.25);
+            display: inline-block;
+            margin-top: 10px; /* Spacing if needed */
+        }
+        .danger-button:hover {
+            background-color: var(--button-danger-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(215, 38, 56, 0.35);
+        }
+        .danger-button:active {
+            transform: translateY(0px) scale(0.98);
+            box-shadow: 0 2px 8px rgba(215, 38, 56, 0.2), inset 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+
+        .stats-section, .featured-squads-section, .rules-content {
+            margin-top: 40px;
+            padding: 30px;
+            background-color: var(--bg-card);
+            border-radius: 15px; 
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+        .stats-section { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; padding:20px; }
+       
+        .stat-item {
+            text-align: center;
+            padding: 25px; 
+            border-radius: 10px; 
+            background-color: var(--bg-main); 
+            min-width: 180px; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+        .stat-item .stat-value-container h3 { font-size: 2.5em; margin: 0; color: var(--accent-blue); }
+        .stat-item p { font-size: 1em; margin: 0; color: var(--text-secondary); }
+       
+        .about-tournament-content {
+            display: flex; align-items: center; gap: 30px; flex-wrap: wrap; justify-content: center;
+            margin-top: 20px; background-color: var(--bg-card); padding: 30px; border-radius: 10px; border: 1px solid var(--border-color);
+        }
+        .about-tournament-content p { flex: 1; min-width: 280px; line-height: 1.8; text-align: left; }
+
+        /* Featured Squads Section */
+        .featured-squads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .featured-squad-card {
+            background-color: var(--bg-main);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+        .featured-squad-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            background-color: var(--border-color); 
+            object-fit: cover;
+        }
+        .featured-squad-card h4 {
+            color: var(--accent-blue);
+            margin-bottom: 5px;
+        }
+        .featured-squad-card p {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+
+        /* Form Styles & Card Grid (Squads Page) */
+        .form-container { background-color: var(--bg-card); padding: 30px; border-radius: 15px; box-shadow: var(--shadow-lg); max-width: 600px; margin: 20px auto; border: 1px solid var(--border-color); }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--accent-blue); }
+        .form-group input[type="text"], .form-group input[type="email"], .form-group input[type="tel"] {
+            width: 100%; padding: 15px; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; color: var(--input-text); font-size: 16px; transition: all 0.3s ease;
+        }
+        .form-group input:focus { outline: none; border-color: var(--accent-fire); box-shadow: 0 0 10px var(--glow-color); }
+        .error-message { color: var(--accent-danger); font-size: 0.9em; margin-top: 5px; }
+
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 20px; }
+        .card { background-color: var(--bg-card); border-radius: 15px; padding: 25px; box-shadow: var(--shadow-md); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 0 20px var(--accent-blue); border-color: var(--accent-blue); }
+        .card p { margin-bottom: 10px; font-size: 0.95em; flex-grow: 1; color: var(--text-secondary); }
+        .card strong { color: var(--text-primary); }
+        .card .card-actions { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .card .cta-button, .card .danger-button { padding: 10px 15px; font-size: 0.9em; }
+
+
+        /* Table Styles */
+        .table-container { overflow-x: auto; background-color: var(--bg-card); padding: 20px; border-radius: 15px; box-shadow: var(--shadow-md); margin-top: 20px; border: 1px solid var(--border-color); }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); color: var(--text-secondary); }
+        td:first-child, th:first-child { color: var(--text-primary); }
+        th { background-color: var(--bg-main); font-family: var(--font-primary); color: var(--accent-blue); font-size: 1.1em; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: color-mix(in srgb, var(--accent-blue) 10%, transparent 90%); }
+        body.light-theme tr:hover { background-color: color-mix(in srgb, var(--accent-blue) 15%, transparent 85%); }
+
+        .rank-medal { font-weight: bold; margin-right: 5px; display: inline-block; width: 22px; text-align: center; border-radius: 50%; padding: 2px 0; line-height: 1; }
+        .rank-medal.gold { background-color: var(--accent-gold); color: var(--bg-card); }
+        .rank-medal.silver { background-color: #a7a7a7; color: var(--bg-card); }
+        .rank-medal.bronze { background-color: #b08d57; color: var(--bg-card); }
+        body.light-theme .rank-medal.gold, body.light-theme .rank-medal.silver, body.light-theme .rank-medal.bronze { color: var(--text-primary); }
+
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 1002; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: color-mix(in srgb, var(--bg-main) 85%, transparent 15%); animation: fadeInModal 0.3s ease; }
+        .modal-content { background-color: var(--bg-card); border: 2px solid var(--accent-fire); margin: 10% auto; padding: 30px; border-radius: 15px; width: 80%; max-width: 500px; box-shadow: var(--shadow-lg); position: relative; animation: slideInModal 0.3s ease; text-align: center;}
+        .success-icon { font-size: 3em; color: var(--accent-gold); margin-bottom: 15px; }
+        .close-button { color: var(--text-primary); position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; line-height: 1; transition: transform 0.1s ease-out, color 0.2s ease-out; }
+        .close-button:hover, .close-button:focus { color: var(--accent-fire); text-decoration: none; cursor: pointer; }
+        .close-button:active { transform: scale(0.90) translateY(1px); color: var(--accent-danger); }
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideInModal { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Filter Buttons for Schedule */
+        .filter-buttons { margin-bottom: 20px; text-align: center; }
+        .filter-buttons button { margin: 5px; padding: 10px 20px; } 
+        .filter-buttons button.active { background-color: var(--accent-blue); color: #ffffff; border-color: var(--accent-fire); box-shadow: 0 4px 10px color-mix(in srgb, var(--accent-blue) 40%, transparent 60%); }
+        body.light-theme .filter-buttons button.active { color: #ffffff; }
+        .filter-buttons button.active:hover { background-color: color-mix(in srgb, var(--accent-blue) 85%, black 15%); }
+        .filter-buttons button.active:active { transform: translateY(1px) scale(1.01); box-shadow: 0 2px 5px color-mix(in srgb, var(--accent-blue) 30%, transparent 70%), inset 0 1px 2px rgba(0,0,0,0.1); }
+
+        /* Rules Page Specific Styles */
+        .rules-content h3 {
+            color: var(--accent-blue);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .rules-content ul, .rules-content ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+        .rules-content ul li, .rules-content ol li {
+            margin-bottom: 8px;
+            line-height: 1.7;
+        }
+        .rules-content p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--footer-bg-dark); 
+            padding: 2.5rem 1rem; 
+            margin-top: auto; 
+            text-align: center;
+            color: var(--footer-text-dark); 
+            border-top: 3px solid var(--accent-fire); 
+            width: 100%;
+            box-shadow: 0 -8px 32px rgba(0,0,0,0.4); 
+        }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; }
+        .footer-links a {
+            color: var(--footer-link-dark); 
+            text-decoration: none;
+            transition: all 0.2s ease-out;
+            display: inline-block;
+        }
+        .footer-links a:hover { color: var(--footer-link-hover-dark); transform: translateY(-2px); }
+        .footer-links a:active { color: var(--accent-gold); transform: translateY(0px) scale(0.98); }
+        
+        .social-icons { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .social-icons a {
+            color: var(--footer-social-dark);
+            font-size: 1.8rem; 
+            transition: all 0.2s ease-out;
+            display: inline-block;
+        }
+        .social-icons a:hover { color: var(--footer-social-hover-dark); transform: translateY(-3px) scale(1.1); }
+        .social-icons a:active { color: var(--accent-fire); transform: translateY(-1px) scale(1.05); }
+       
+        .footer p { margin-top: 1rem; font-size: 0.9em; }
+
+        /* No Data Placeholders */
+        .no-data-placeholder { text-align: center; padding: 40px 20px; color: var(--text-secondary); font-size: 1.1em; }
+        .no-data-placeholder i { font-size: 3em; margin-bottom: 15px; display: block; color: var(--border-color); }
+        
+        /* Squads Page Specific Controls */
+        .squads-controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header .container { padding: 0 3%; }
+            .header-right-controls { margin-left: auto; }
+            .nav-menu { display: none; flex-direction: column; width: 100%; background-color: var(--bg-card); position: absolute; top: 100%; left: 0; box-shadow: var(--shadow-md); padding: 10px 0; border-top: 1px solid var(--border-color); }
+            .nav-menu.show-mobile-nav { display: flex; }
+            .nav-menu li { width: 100%; text-align: center; }
+            .nav-menu li a.nav-link { display: flex; padding: 12px; border-radius: 0; justify-content: center;} /* Center mobile nav links */
+            .mobile-nav-toggle { display: block; }
+            #home-page .banner { height: auto; padding: 40px 20px; }
+            #home-page .banner h1 { font-size: 2.2em; }
+            #home-page .banner p { font-size: 1em; }
+            #countdown-timer { font-size: 1.5em; }
+            .cta-button, .danger-button { font-size: 1em; padding: 12px 25px; }
+            .stats-section, .featured-squads-section, .rules-content { padding: 20px; }
+            .stat-item { width: 90%; margin-bottom: 15px; }
+            .stat-item .stat-value-container h3 { font-size: 2em; }
+            .form-container { padding: 20px; }
+            .modal-content { margin: 20% auto; width: 90%; }
+            .card-grid { grid-template-columns: 1fr; }
+            .about-tournament-content { flex-direction: column; text-align: center; }
+            .about-tournament-content p { text-align: center; }
+            .card .card-actions { justify-content: center; }
+            th, td { padding: 12px 8px; font-size: 0.9em;} /* Adjust table padding for smaller screens */
+        }
+        @media (max-width: 480px) {
+            .logo-container .site-title { font-size: 1.5em; }
+            .logo-circle { width: 35px; height: 35px; }
+            .logo-circle span { font-size: 1.1rem; }
+            #home-page .banner h1 { font-size: 1.8em; }
+            .filter-buttons button { display: block; width: calc(100% - 10px); margin: 8px 5px; }
+            .nav-menu li a.nav-link { padding: 10px; }
+            .squads-controls .danger-button { width: calc(100% - 10px); margin-left: 5px; margin-right: 5px; }
+            th, td { padding: 10px 5px; font-size: 0.85em;} /* Further adjust table padding */
+        }
+
+        /* --- STYLES FOR FIXED THEME TOGGLE BUTTON --- */
+        #theme-toggle-button {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1001; 
+            
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 25px; 
+            padding: 0.6rem 1rem;
+            
+            cursor: pointer;
+            font-size: 0.9em;
+            
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, 
+                        background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        #theme-toggle-button:hover {
+            border-color: var(--accent-fire);
+            color: var(--accent-fire);
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 12px var(--shadow-color);
+        }
+
+        #theme-toggle-button:active {
+            transform: translateY(0px) scale(0.97);
+            background: var(--accent-fire);
+            color: var(--button-cta-text); 
+            border-color: var(--accent-fire);
+        }
+
+        #theme-toggle-button .fa-sun, 
+        body.light-theme #theme-toggle-button .fa-moon { 
+            display: none; 
+        }
+        body.light-theme #theme-toggle-button .fa-sun { 
+            display: inline-block; 
+        }
+        
+        #theme-toggle-button .theme-toggle-text-sun { display: none; }
+        body.light-theme #theme-toggle-button .theme-toggle-text-moon { display: none; }
+        body.light-theme #theme-toggle-button .theme-toggle-text-sun { display: inline-block; }
+
+        @media (max-width: 768px) { 
+            #theme-toggle-button {
+                padding: 0; 
+                width: 44px; 
+                height: 44px;
+                border-radius: 50%; 
+                justify-content: center; 
+                align-items: center;
+                gap: 0;
+                bottom: 20px; 
+                right: 20px;
+            }
+            #theme-toggle-button .theme-toggle-text-moon,
+            #theme-toggle-button .theme-toggle-text-sun {
+                display: none !important; 
+            }
+            #theme-toggle-button .fas { 
+                font-size: 1.1em; 
+                margin: 0; 
+                line-height: 1; 
+            }
+        }
+
+        @media (max-width: 480px) {
+            #theme-toggle-button {
+                width: 40px;
+                height: 40px;
+                bottom: 15px; 
+                right: 15px;
+            }
+            #theme-toggle-button .fas { 
+                font-size: 1em; 
+            }
+        }
+        /* END OF STYLES FOR FIXED THEME TOGGLE BUTTON */
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo-container" data-page="home-page">
+                <div class="logo-circle">
+                    <span>G</span>
+                </div>
+                <h1 class="site-title">FREE FIRE Tournaments</h1>
+            </a>
+            <div class="header-right-controls">
+                <button class="mobile-nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+            </div>
+            <nav>
+                <ul class="nav-menu" id="nav-links">
+                    <li><a href="#" class="nav-link active" data-page="home-page"><i class="fas fa-home"></i>Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="registration-page"><i class="fas fa-edit"></i>Register</a></li>
+                    <li><a href="#" class="nav-link" data-page="squads-page"><i class="fas fa-users"></i>Squads</a></li>
+                    <li><a href="#" class="nav-link" data-page="schedule-page"><i class="fas fa-calendar-alt"></i>Schedule</a></li>
+                    <li><a href="#" class="nav-link" data-page="leaderboard-page"><i class="fas fa-trophy"></i>Leaderboard</a></li>
+                    <li><a href="#" class="nav-link" data-page="rules-page"><i class="fas fa-gavel"></i>Rules</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container"> 
+        <section id="home-page" class="page active">
+            <div class="banner">
+                <div class="banner-content">
+                    <h1>FREE FIRE TOURNAMENT</h1>
+                    <p>The ultimate battle for glory begins soon!</p>
+                    <div id="countdown-timer">00d 00h 00m 00s</div>
+                    <button class="cta-button" data-page="registration-page">Register Your Squad Now!</button>
+                </div>
+            </div>
+            <div class="stats-section">
+                <div class="stat-item">
+                    <div class="stat-value-container">
+                        <h3 id="total-squads-stat">0</h3>
+                    </div>
+                    <p>Squads Registered</p>
+                </div>
+                <div class="stat-item">
+                     <div class="stat-value-container">
+                        <h3 id="prize-pool-stat">$0</h3>
+                    </div>
+                    <p>Prize Pool</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value-container">
+                        <h3 id="live-viewers-stat">0</h3>
+                    </div>
+                    <p>Live Viewers (Simulated)</p>
+                </div>
+            </div>
+
+            <section class="featured-squads-section">
+                <h2>Featured Squads</h2>
+                <div id="featured-squads-grid" class="featured-squads-grid">
+                    <!-- JS will populate this -->
+                </div>
+            </section>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <h2>About The Tournament</h2>
+                <div class="about-tournament-content">
+                    <p>Join the most exciting Free Fire tournament of the year! Gather your squad, showcase your skills, and compete for an epic prize pool. Experience intense battles, strategic gameplay, and the thrill of victory. Are you ready to become a legend?</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="registration-page" class="page">
+            <div class="form-container">
+                <h2>Register Your Squad</h2>
+                <form id="registration-form">
+                    <div class="form-group">
+                        <label for="squadName">Squad Name:</label>
+                        <input type="text" id="squadName" name="squadName" required>
+                        <div class="error-message" id="squadNameError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="captainName">Captain Name:</label>
+                        <input type="text" id="captainName" name="captainName" required>
+                        <div class="error-message" id="captainNameError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="player2">Player 2 Name:</label>
+                        <input type="text" id="player2" name="player2" required>
+                        <div class="error-message" id="player2Error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="player3">Player 3 Name:</label>
+                        <input type="text" id="player3" name="player3" required>
+                        <div class="error-message" id="player3Error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="player4">Player 4 Name:</label>
+                        <input type="text" id="player4" name="player4" required>
+                        <div class="error-message" id="player4Error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="whatsapp">WhatsApp Number:</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" required pattern="[0-9]{10,15}">
+                        <div class="error-message" id="whatsappError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" required>
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+                    <button type="submit" class="cta-button" style="width: 100%;">Register Squad</button>
+                </form>
+            </div>
+            <div class="table-container" style="margin-top: 30px;">
+                <h2>Recently Registered</h2>
+                <table id="registered-squads-list-preview">
+                    <thead>
+                        <tr>
+                            <th>Squad Name</th>
+                            <th>Captain</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- JS will populate this -->
+                    </tbody>
+                </table>
+                <div id="no-squads-preview-container" class="no-data-placeholder" style="display:none;">
+                    <p>No squads registered yet.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="squads-page" class="page">
+            <h2>Registered Squads</h2>
+            <div class="squads-controls">
+                 <button id="clear-all-squads-btn" class="danger-button">Clear All Registered Squads</button>
+            </div>
+            <div id="squads-grid" class="card-grid">
+                <!-- JS will populate this -->
+            </div>
+            <div id="no-squads-display-container" class="no-data-placeholder" style="display:none;">
+                <p>No squads registered yet. Be the first!</p>
+            </div>
+        </section>
+
+        <section id="schedule-page" class="page">
+            <h2>Match Schedule</h2>
+            <div class="filter-buttons">
+                <button class="cta-button filter-btn active" data-filter="all">All Matches</button>
+                <button class="cta-button filter-btn" data-filter="upcoming">Upcoming</button>
+                <button class="cta-button filter-btn" data-filter="completed">Completed</button>
+            </div>
+            <div class="table-container">
+                <table id="match-schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Match</th>
+                            <th>Status</th>
+                            <th>Custom ID</th>
+                            <th>Password</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- JS will populate this -->
+                    </tbody>
+                </table>
+                <div id="no-matches-display-container" class="no-data-placeholder" style="display:none;">
+                    <p>Match schedule will be updated soon.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="leaderboard-page" class="page">
+            <h2>Leaderboard</h2>
+            <div class="filter-buttons"> 
+                <button class="cta-button" id="sort-leaderboard-btn">Sort by Total Points</button>
+            </div>
+            <div class="table-container">
+                <table id="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Squad Name</th>
+                            <th>Kills</th>
+                            <th>Position Points</th>
+                            <th>Total Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- JS will populate this -->
+                    </tbody>
+                </table>
+                <div id="no-leaderboard-data-container" class="no-data-placeholder" style="display:none;">
+                    <p>Leaderboard will be updated after matches begin.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="rules-page" class="page">
+            <div class="rules-content">
+                <h2>Tournament Rules & Regulations</h2>
+                
+                <h3>1. Eligibility</h3>
+                <ol>
+                    <li>All players must be 16 years of age or older.</li>
+                    <li>Each squad must consist of exactly 4 players.</li>
+                    <li>Players can only be part of one registered squad.</li>
+                    <li>Use of emulators is strictly prohibited. Only mobile devices are allowed.</li>
+                </ol>
+
+                <h3>2. Registration</h3>
+                <ul>
+                    <li>Registration must be completed through the official tournament website.</li>
+                    <li>Squad names must be appropriate and not contain offensive language.</li>
+                    <li>The registration deadline is [Insert Date Here, e.g., July 15th, 2024]. No late entries will be accepted.</li>
+                </ul>
+
+                <h3>3. Match Format</h3>
+                <ul>
+                    <li>Matches will be played in Classic Battle Royale mode on Bermuda/Kalahari/Purgatory maps (map rotation will be announced).</li>
+                    <li>Scoring will be based on placement points and kill points. (Details to be provided before qualifiers).</li>
+                    <li>Qualifiers: 3 matches per group. Top 2 squads from each group advance.</li>
+                    <li>Finals: 5 matches.</li>
+                </ul>
+
+                <h3>4. Fair Play & Conduct</h3>
+                <ul>
+                    <li>Use of third-party applications, hacks, cheats, or exploits is strictly forbidden and will result in immediate disqualification of the entire squad.</li>
+                    <li>Teaming with other squads is not allowed.</li>
+                    <li>Verbal abuse, unsportsmanlike conduct, or harassment towards other players or tournament officials will not be tolerated and may lead to penalties or disqualification.</li>
+                    <li>Tournament organizers reserve the right to make final decisions on all rule interpretations and disputes.</li>
+                </ul>
+
+                <h3>5. Technical Issues</h3>
+                <ul>
+                    <li>Players are responsible for their own internet connection and device stability.</li>
+                    <li>In case of minor disconnections, the match will continue. No remakes for individual player disconnections.</li>
+                    <li>Major server-side issues may result in a match restart at the discretion of the organizers.</li>
+                </ul>
+                
+                <h3>6. Prize Distribution</h3>
+                <p>Prize pool distribution will be announced before the finals. Prizes will be distributed to the registered squad captain within 14 days after the tournament conclusion.</p>
+
+                <p><em>These rules are subject to change at the discretion of the tournament organizers. All updates will be communicated via the official website and registered email addresses.</em></p>
+            </div>
+        </section>
+    </div>
+
+    <div id="squad-profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button squad-modal-close">&times;</span>
+            <h2 id="modal-squad-name">Squad Details</h2>
+            <p><strong>Captain:</strong> <span id="modal-captain-name"></span></p>
+            <p><strong>Player 2:</strong> <span id="modal-player2-name"></span></p>
+            <p><strong>Player 3:</strong> <span id="modal-player3-name"></span></p>
+            <p><strong>Player 4:</strong> <span id="modal-player4-name"></span></p>
+            <p><strong>WhatsApp:</strong> <span id="modal-whatsapp"></span></p>
+            <p><strong>Email:</strong> <span id="modal-email"></span></p>
+        </div>
+    </div>
+
+    <div id="registration-success-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button success-modal-close">&times;</span>
+            <h2>Registration Successful!</h2>
+            <i class="fas fa-check-circle success-icon"></i>
+            <p>Your squad has been registered. Good luck in the tournament!</p>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal for Deletion -->
+    <div id="confirm-delete-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button confirm-delete-close">&times;</span>
+            <h2>Confirm Deletion</h2>
+            <p id="confirm-delete-message">Are you sure you want to delete this squad?</p>
+            <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+                <button id="confirm-delete-btn" class="danger-button">Yes, Delete</button>
+                <button id="cancel-delete-btn" class="cta-button" style="background-color: var(--text-secondary); border-color: var(--border-color); color: var(--bg-card)">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#" onclick="alert('Privacy Policy: This is a demo site. No real data is collected.'); return false;">Privacy Policy</a>
+            <a href="#" onclick="alert('Terms of Service: Standard demo terms apply.'); return false;">Terms of Service</a>
+            <a href="#" onclick="alert('Contact Us: Not a real service. This is for demo purposes.'); return false;">Contact Us</a>
+        </div>
+        <div class="social-icons">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p>&copy; <span id="currentYear"></span> Free Fire Tournament. All Rights Reserved. <br>This is a fictional website for demonstration purposes.</p>
+    </footer>
+
+    <button id="theme-toggle-button" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i> <span class="theme-toggle-text-moon">Dark</span>
+        <i class="fas fa-sun"></i> <span class="theme-toggle-text-sun">Light</span>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleButton = document.getElementById('theme-toggle-button');
+            
+            const simpleApplyTheme = (theme) => {
+                if (theme === 'light') {
+                    document.body.classList.add('light-theme');
+                } else {
+                    document.body.classList.remove('light-theme');
+                }
+            };
+
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            simpleApplyTheme(savedTheme);
+
+            themeToggleButton.addEventListener('click', () => {
+                const currentTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                localStorage.setItem('theme', newTheme);
+                simpleApplyTheme(newTheme);
+                if (typeof renderLeaderboard === "function") renderLeaderboard();
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link, .logo-container, .cta-button[data-page]');
+            const pages = document.querySelectorAll('.page');
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const navUl = document.getElementById('nav-links'); 
+
+            function showPage(pageId) {
+                if (!pageId) return; 
+                
+                pages.forEach(page => page.classList.remove('active'));
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                } else {
+                    console.warn("Page not found:", pageId);
+                    document.getElementById('home-page')?.classList.add('active');
+                }
+
+                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                const activeNavLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+                if (activeNavLink) {
+                    activeNavLink.classList.add('active');
+                }
+
+                window.scrollTo(0, 0);
+                if (navUl.classList.contains('show-mobile-nav')) {
+                    navUl.classList.remove('show-mobile-nav');
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const pageId = link.dataset.page;
+                    if (pageId) { 
+                        e.preventDefault();
+                        showPage(pageId);
+                    }
+                });
+            });
+            
+            mobileNavToggle.addEventListener('click', () => {
+                navUl.classList.toggle('show-mobile-nav');
+            });
+
+            const countdownTimer = document.getElementById('countdown-timer');
+            const tournamentDate = new Date();
+            tournamentDate.setDate(tournamentDate.getDate() + 10); 
+            tournamentDate.setHours(18, 0, 0, 0); 
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = tournamentDate - now;
+                if (distance < 0) {
+                    if(countdownTimer) countdownTimer.innerHTML = "Tournament Started!";
+                    clearInterval(countdownInterval);
+                    return;
+                }
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                if(countdownTimer) countdownTimer.innerHTML = `${String(days).padStart(2,'0')}d ${String(hours).padStart(2,'0')}h ${String(minutes).padStart(2,'0')}m ${String(seconds).padStart(2,'0')}s`;
+            }
+            let countdownInterval;
+            if(countdownTimer) {
+                 countdownInterval = setInterval(updateCountdown, 1000);
+                 updateCountdown();
+            }
+
+            const totalSquadsStat = document.getElementById('total-squads-stat');
+            const prizePoolStat = document.getElementById('prize-pool-stat');
+            const liveViewersStat = document.getElementById('live-viewers-stat');
+
+            function animateValue(element, start, end, duration, isCurrency = false) {
+                if (!element) return;
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    let currentValue = Math.floor(progress * (end - start) + start);
+                    element.textContent = isCurrency ? `$${currentValue.toLocaleString()}` : currentValue.toLocaleString();
+                    if (progress < 1) window.requestAnimationFrame(step);
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            let currentPrizePool = 5000;
+            let currentLiveViewers = Math.floor(Math.random() * 500) + 100; 
+            
+            if(liveViewersStat) { 
+                animateValue(liveViewersStat, 0, currentLiveViewers, 2500); 
+                setInterval(() => { 
+                    const change = Math.floor(Math.random() * 50) - 25; 
+                    currentLiveViewers = Math.max(50, currentLiveViewers + change); 
+                    liveViewersStat.textContent = currentLiveViewers.toLocaleString();
+                }, 5000); 
+            }
+
+            const registrationForm = document.getElementById('registration-form');
+            const registeredSquadsListPreview = document.getElementById('registered-squads-list-preview')?.querySelector('tbody');
+            const noSquadsPreviewContainer = document.getElementById('no-squads-preview-container'); 
+            const registrationSuccessModal = document.getElementById('registration-success-modal');
+            const successModalCloseButton = registrationSuccessModal?.querySelector('.success-modal-close');
+            
+            const confirmDeleteModal = document.getElementById('confirm-delete-modal');
+            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+            const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+            const confirmDeleteCloseBtn = confirmDeleteModal?.querySelector('.confirm-delete-close');
+            const confirmDeleteMessage = document.getElementById('confirm-delete-message');
+            let squadIdToDelete = null;
+            let deleteAllMode = false;
+
+
+            let registeredSquads = JSON.parse(localStorage.getItem('registeredSquads')) || [];
+
+            function saveSquads() { localStorage.setItem('registeredSquads', JSON.stringify(registeredSquads)); }
+            function displayError(elementId, message) { const el = document.getElementById(elementId); if (el) el.textContent = message; }
+            function clearErrors() { document.querySelectorAll('.error-message').forEach(el => el.textContent = ''); }
+
+            function validateForm(formData) {
+                clearErrors(); let isValid = true;
+                if (!formData.get('squadName').trim()) { displayError('squadNameError', 'Squad Name is required.'); isValid = false; }
+                if (!formData.get('captainName').trim()) { displayError('captainNameError', 'Captain Name is required.'); isValid = false; }
+                for (let i = 2; i <= 4; i++) if (!formData.get(`player${i}`).trim()) { displayError(`player${i}Error`, `Player ${i} Name is required.`); isValid = false; }
+                const whatsapp = formData.get('whatsapp').trim();
+                if (!whatsapp) { displayError('whatsappError', 'WhatsApp Number is required.'); isValid = false; }
+                else if (!/^\d{10,15}$/.test(whatsapp)) { displayError('whatsappError', 'Enter a valid WhatsApp Number (10-15 digits).'); isValid = false; }
+                const email = formData.get('email').trim();
+                if (!email) { displayError('emailError', 'Email is required.'); isValid = false; }
+                else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { displayError('emailError', 'Enter a valid Email Address.'); isValid = false; }
+                return isValid;
+            }
+
+            function renderSquadsPreview() {
+                const tableElement = document.getElementById('registered-squads-list-preview');
+                if (!registeredSquadsListPreview || !tableElement) return;
+                registeredSquadsListPreview.innerHTML = '';
+                if (registeredSquads.length === 0) {
+                    if(noSquadsPreviewContainer) noSquadsPreviewContainer.style.display = 'block'; 
+                    tableElement.style.display = 'none';
+                } else {
+                    if(noSquadsPreviewContainer) noSquadsPreviewContainer.style.display = 'none';
+                    tableElement.style.display = 'table';
+                    const recentSquads = registeredSquads.slice(-5).reverse(); 
+                    recentSquads.forEach(squad => {
+                        const row = registeredSquadsListPreview.insertRow();
+                        row.insertCell().textContent = squad.squadName;
+                        row.insertCell().textContent = squad.captainName;
+                    });
+                }
+            }
+
+            registrationForm?.addEventListener('submit', (e) => {
+                e.preventDefault(); const formData = new FormData(registrationForm);
+                if (!validateForm(formData)) return;
+                const newSquad = { id: `squad_${new Date().getTime()}_${Math.random().toString(36).substr(2, 5)}`, squadName: formData.get('squadName').trim(), captainName: formData.get('captainName').trim(), player2: formData.get('player2').trim(), player3: formData.get('player3').trim(), player4: formData.get('player4').trim(), whatsapp: formData.get('whatsapp').trim(), email: formData.get('email').trim() };
+                registeredSquads.push(newSquad); saveSquads();
+                if (registrationSuccessModal) registrationSuccessModal.style.display = 'block';
+                registrationForm.reset(); clearErrors(); renderSquadsPreview(); updateSquadsDisplay(); updateHomepageStats();
+                updateFeaturedSquads();
+            });
+            
+            successModalCloseButton?.addEventListener('click', () => { if (registrationSuccessModal) registrationSuccessModal.style.display = 'none'; });
+
+            const squadsGrid = document.getElementById('squads-grid');
+            const noSquadsDisplayContainer = document.getElementById('no-squads-display-container'); 
+            const squadProfileModal = document.getElementById('squad-profile-modal');
+            const squadModalCloseButton = squadProfileModal?.querySelector('.squad-modal-close');
+            const clearAllSquadsBtn = document.getElementById('clear-all-squads-btn');
+
+
+            function updateSquadsDisplay() {
+                if (!squadsGrid) return; squadsGrid.innerHTML = '';
+                if (registeredSquads.length === 0) { 
+                    if(noSquadsDisplayContainer) noSquadsDisplayContainer.style.display = 'block'; 
+                    if(clearAllSquadsBtn) clearAllSquadsBtn.style.display = 'none'; // Hide clear button if no squads
+                    return; 
+                }
+                if(noSquadsDisplayContainer) noSquadsDisplayContainer.style.display = 'none'; 
+                if(clearAllSquadsBtn) clearAllSquadsBtn.style.display = 'inline-block'; // Show clear button
+
+                registeredSquads.forEach(squad => {
+                    const card = document.createElement('div'); card.className = 'card';
+                    card.innerHTML = `
+                        <h3>${squad.squadName}</h3>
+                        <p><strong>Captain:</strong> ${squad.captainName}</p>
+                        <p><strong>Members:</strong> ${squad.player2}, ${squad.player3}, ${squad.player4}</p>
+                        <div class="card-actions">
+                            <button class="cta-button view-profile-btn" data-squad-id="${squad.id}">View Profile</button>
+                            <button class="danger-button delete-squad-btn" data-squad-id="${squad.id}">Delete Squad</button>
+                        </div>
+                    `;
+                    squadsGrid.appendChild(card);
+                });
+
+                document.querySelectorAll('.view-profile-btn').forEach(button => button.addEventListener('click', () => {
+                    const squad = registeredSquads.find(s => s.id === button.dataset.squadId); if (squad) openSquadProfileModal(squad);
+                }));
+                document.querySelectorAll('.delete-squad-btn').forEach(button => button.addEventListener('click', () => {
+                    squadIdToDelete = button.dataset.squadId;
+                    deleteAllMode = false;
+                    const squad = registeredSquads.find(s => s.id === squadIdToDelete);
+                    if(confirmDeleteMessage) confirmDeleteMessage.textContent = `Are you sure you want to delete the squad "${squad ? squad.squadName : 'this squad'}"?`;
+                    if(confirmDeleteModal) confirmDeleteModal.style.display = 'block';
+                }));
+            }
+            
+            clearAllSquadsBtn?.addEventListener('click', () => {
+                if (registeredSquads.length > 0) {
+                    squadIdToDelete = null; // No specific squad, it's for all
+                    deleteAllMode = true;
+                    if(confirmDeleteMessage) confirmDeleteMessage.textContent = "Are you sure you want to delete ALL registered squads? This action cannot be undone.";
+                    if(confirmDeleteModal) confirmDeleteModal.style.display = 'block';
+                } else {
+                    alert("No squads to delete.");
+                }
+            });
+
+
+            confirmDeleteBtn?.addEventListener('click', () => {
+                if (deleteAllMode) {
+                    registeredSquads = [];
+                } else if (squadIdToDelete) {
+                    registeredSquads = registeredSquads.filter(squad => squad.id !== squadIdToDelete);
+                }
+                saveSquads();
+                updateSquadsDisplay();
+                renderSquadsPreview();
+                updateHomepageStats();
+                updateFeaturedSquads();
+                if(confirmDeleteModal) confirmDeleteModal.style.display = 'none';
+                squadIdToDelete = null;
+                deleteAllMode = false;
+            });
+
+            cancelDeleteBtn?.addEventListener('click', () => {
+                if(confirmDeleteModal) confirmDeleteModal.style.display = 'none';
+                squadIdToDelete = null;
+                deleteAllMode = false;
+            });
+            confirmDeleteCloseBtn?.addEventListener('click', () => {
+                if(confirmDeleteModal) confirmDeleteModal.style.display = 'none';
+                squadIdToDelete = null;
+                deleteAllMode = false;
+            });
+
+
+            function openSquadProfileModal(squad) {
+                if (!squadProfileModal) return;
+                document.getElementById('modal-squad-name').textContent = squad.squadName;
+                document.getElementById('modal-captain-name').textContent = squad.captainName;
+                document.getElementById('modal-player2-name').textContent = squad.player2;
+                document.getElementById('modal-player3-name').textContent = squad.player3;
+                document.getElementById('modal-player4-name').textContent = squad.player4;
+                document.getElementById('modal-whatsapp').textContent = squad.whatsapp;
+                document.getElementById('modal-email').textContent = squad.email;
+                squadProfileModal.style.display = 'block';
+            }
+            squadModalCloseButton?.addEventListener('click', () => { if (squadProfileModal) squadProfileModal.style.display = 'none'; });
+            
+            window.addEventListener('click', (event) => { 
+                if (event.target == squadProfileModal) if (squadProfileModal) squadProfileModal.style.display = 'none';
+                if (event.target == registrationSuccessModal) if (registrationSuccessModal) registrationSuccessModal.style.display = 'none';
+                if (event.target == confirmDeleteModal) if (confirmDeleteModal) confirmDeleteModal.style.display = 'none';
+            });
+
+            // --- SCHEDULE DATA & LOGIC ---
+            const matchScheduleTable = document.getElementById('match-schedule-table');
+            const matchScheduleTableBody = matchScheduleTable?.querySelector('tbody');
+            const scheduleFilterButtons = document.querySelectorAll('#schedule-page .filter-btn');
+            const noMatchesDisplayContainer = document.getElementById('no-matches-display-container');
+
+            const allMatches = [
+                { id: 1, dateTime: "2024-07-20 18:00", matchName: "Qualifiers - Group A - Match 1", status: "completed", result: "Alpha Predators Won", customId: null, customPassword: null },
+                { id: 2, dateTime: "2024-07-20 19:00", matchName: "Qualifiers - Group A - Match 2", status: "completed", result: "Cyber Ghosts Won", customId: null, customPassword: null },
+                { id: 3, dateTime: "2024-07-21 18:00", matchName: "Qualifiers - Group B - Match 1", status: "completed", result: "Venom Vipers Won", customId: null, customPassword: null },
+                { id: 4, dateTime: "2024-07-21 19:00", matchName: "Qualifiers - Group B - Match 2", status: "completed", result: "Omega Warriors Won", customId: null, customPassword: null },
+                { id: 5, dateTime: "2024-07-22 18:00", matchName: "Qualifiers - Group C - Match 1", status: "completed", result: "Stealth Strikers Won", customId: null, customPassword: null },
+                { id: 6, dateTime: "2024-07-28 17:00", matchName: "Quarter Finals - Match 1", status: "upcoming", result: "TBD", customId: "QF1ID123", customPassword: "PASSQF1" },
+                { id: 7, dateTime: "2024-07-28 18:00", matchName: "Quarter Finals - Match 2", status: "upcoming", result: "TBD", customId: "QF2ID456", customPassword: "PASSQF2" },
+                { id: 8, dateTime: "2024-07-29 19:00", matchName: "Semi Finals - Match 1", status: "upcoming", result: "TBD", customId: null, customPassword: null },
+                { id: 9, dateTime: "2024-07-29 20:00", matchName: "Semi Finals - Match 2", status: "upcoming", result: "TBD", customId: "SF2ID789", customPassword: "PASSSF2" },
+                { id: 10, dateTime: "2024-07-30 20:00", matchName: "Grand Final", status: "upcoming", result: "TBD", customId: "GFID000", customPassword: "PASSGF0" },
+            ];
+
+            function renderMatches(filter = 'all') {
+                if (!matchScheduleTableBody || !matchScheduleTable) return;
+                
+                const filteredMatches = allMatches.filter(match => {
+                    if (filter === 'all') return true;
+                    return match.status === filter;
+                });
+
+                if (filteredMatches.length === 0) {
+                    if (noMatchesDisplayContainer) noMatchesDisplayContainer.style.display = 'block';
+                    matchScheduleTableBody.innerHTML = '';
+                    if (matchScheduleTable) matchScheduleTable.style.display = 'none';
+                } else {
+                    if (noMatchesDisplayContainer) noMatchesDisplayContainer.style.display = 'none';
+                    if (matchScheduleTable) matchScheduleTable.style.display = 'table';
+                    matchScheduleTableBody.innerHTML = '';
+                    filteredMatches.forEach(match => {
+                        const row = matchScheduleTableBody.insertRow();
+                        row.insertCell().textContent = match.dateTime;
+                        row.insertCell().textContent = match.matchName;
+                        
+                        const statusCell = row.insertCell();
+                        statusCell.textContent = match.status.charAt(0).toUpperCase() + match.status.slice(1);
+                        statusCell.style.color = match.status === 'completed' ? 'var(--accent-gold)' : 'var(--accent-blue)';
+                        statusCell.style.fontWeight = '500';
+
+                        const idCell = row.insertCell();
+                        const passwordCell = row.insertCell();
+
+                        if (match.status === 'upcoming') {
+                            idCell.textContent = match.customId ? match.customId : "Not Set";
+                            passwordCell.textContent = match.customPassword ? match.customPassword : "Not Set";
+                        } else if (match.status === 'completed') {
+                            idCell.textContent = "N/A";
+                            passwordCell.textContent = "N/A";
+                        } else { // For any other unforeseen status
+                            idCell.textContent = "N/A";
+                            passwordCell.textContent = "N/A";
+                        }
+                        
+                        row.insertCell().textContent = match.result;
+                    });
+                }
+            }
+
+            scheduleFilterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    scheduleFilterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    renderMatches(button.dataset.filter);
+                });
+            });
+
+            // --- LEADERBOARD DATA & LOGIC ---
+            const leaderboardTable = document.getElementById('leaderboard-table');
+            const leaderboardTableBody = leaderboardTable?.querySelector('tbody');
+            const sortLeaderboardBtn = document.getElementById('sort-leaderboard-btn');
+            const noLeaderboardDataContainer = document.getElementById('no-leaderboard-data-container');
+
+            let leaderboardData = [
+                { squadName: "Alpha Predators", kills: 55, positionPoints: 120, totalPoints: 175 },
+                { squadName: "Cyber Ghosts", kills: 60, positionPoints: 110, totalPoints: 170 },
+                { squadName: "Venom Vipers", kills: 50, positionPoints: 115, totalPoints: 165 },
+                { squadName: "Omega Warriors", kills: 45, positionPoints: 100, totalPoints: 145 },
+                { squadName: "Stealth Strikers", kills: 40, positionPoints: 90, totalPoints: 130 },
+                { squadName: "Titan Squad", kills: 35, positionPoints: 80, totalPoints: 115 },
+                { squadName: "Shadow Assassins", kills: 30, positionPoints: 70, totalPoints: 100 },
+                { squadName: "Night Reapers", kills: 25, positionPoints: 60, totalPoints: 85 },
+                { squadName: "Blaze Brigade", kills: 20, positionPoints: 50, totalPoints: 70 },
+                { squadName: "Storm Chasers", kills: 15, positionPoints: 40, totalPoints: 55 },
+            ];
+            
+            function sortLeaderboard() {
+                leaderboardData.sort((a, b) => b.totalPoints - a.totalPoints);
+            }
+
+            function renderLeaderboard() {
+                if (!leaderboardTableBody || !leaderboardTable) return;
+                sortLeaderboard(); 
+
+                if (leaderboardData.length === 0) {
+                    if (noLeaderboardDataContainer) noLeaderboardDataContainer.style.display = 'block';
+                    leaderboardTableBody.innerHTML = '';
+                    if (leaderboardTable) leaderboardTable.style.display = 'none';
+                } else {
+                    if (noLeaderboardDataContainer) noLeaderboardDataContainer.style.display = 'none';
+                    if (leaderboardTable) leaderboardTable.style.display = 'table';
+                    leaderboardTableBody.innerHTML = '';
+
+                    leaderboardData.forEach((entry, index) => {
+                        const row = leaderboardTableBody.insertRow();
+                        const rank = index + 1;
+                        const rankCell = row.insertCell();
+
+                        let medalSpan = '';
+                        if (rank === 1) medalSpan = '<span class="rank-medal gold">1</span>';
+                        else if (rank === 2) medalSpan = '<span class="rank-medal silver">2</span>';
+                        else if (rank === 3) medalSpan = '<span class="rank-medal bronze">3</span>';
+                        else medalSpan = String(rank);
+                        
+                        rankCell.innerHTML = medalSpan;
+                        rankCell.style.textAlign = 'center';
+
+
+                        row.insertCell().textContent = entry.squadName;
+                        row.insertCell().textContent = entry.kills;
+                        row.insertCell().textContent = entry.positionPoints;
+                        const totalPointsCell = row.insertCell();
+                        totalPointsCell.textContent = entry.totalPoints;
+                        totalPointsCell.style.fontWeight = 'bold';
+                        totalPointsCell.style.color = 'var(--accent-fire)';
+                    });
+                }
+            }
+
+            sortLeaderboardBtn?.addEventListener('click', () => {
+                renderLeaderboard();
+            });
+
+            // Featured Squads Logic
+            const featuredSquadsGrid = document.getElementById('featured-squads-grid');
+            function updateFeaturedSquads() {
+                if (!featuredSquadsGrid) return;
+                featuredSquadsGrid.innerHTML = ''; 
+                
+                let squadsToFeature = registeredSquads.slice(0, 3);
+
+                if (squadsToFeature.length < 3) { 
+                    const placeholders = [
+                        { name: "Alpha Predators", desc: "Known for aggressive playstyle.", logoPlaceholder: "S1", color1: "5A5A5A", color2: "EAEAEA"},
+                        { name: "Cyber Ghosts", desc: "Masters of stealth and strategy.", logoPlaceholder: "S2", color1: "FBA61B", color2: "0E141C" },
+                        { name: "Venom Vipers", desc: "Last year's champions!", logoPlaceholder: "S3", color1: "00B3FF", color2: "FFFFFF" }
+                    ];
+                    if (registeredSquads.length < 3) {
+                         squadsToFeature = squadsToFeature.concat(placeholders.slice(squadsToFeature.length));
+                    }
+                }
+
+
+                squadsToFeature.forEach(squad => {
+                    const card = document.createElement('div');
+                    card.className = 'featured-squad-card';
+                    const squadName = squad.squadName || squad.name; 
+                    const description = squad.captainName ? `Captain: ${squad.captainName}` : squad.desc;
+                    const logoSrc = squad.logoPlaceholder ? 
+                        `https://via.placeholder.com/80/${squad.color1}/${squad.color2}?text=${squad.logoPlaceholder}` :
+                        `https://via.placeholder.com/80/CCCCCC/FFFFFF?text=${squadName.substring(0,2).toUpperCase()}`;
+
+                    card.innerHTML = `
+                        <img src="${logoSrc}" alt="${squadName} Logo">
+                        <h4>${squadName}</h4>
+                        <p>${description}</p>
+                    `;
+                    featuredSquadsGrid.appendChild(card);
+                });
+            }
+
+            function updateHomepageStats() {
+                if (totalSquadsStat) animateValue(totalSquadsStat, 0, registeredSquads.length, 1500);
+                const dynamicPrizePool = currentPrizePool + (registeredSquads.length * 10); 
+                if (prizePoolStat) animateValue(prizePoolStat, 0, dynamicPrizePool, 2000, true);
+            }
+            
+            // Initial Calls
+            showPage('home-page'); 
+            updateHomepageStats(); 
+            renderSquadsPreview();
+            updateSquadsDisplay();
+            renderMatches('all'); 
+            renderLeaderboard();
+            updateFeaturedSquads(); 
+
+            const currentYearSpan = document.getElementById('currentYear');
+            if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>
